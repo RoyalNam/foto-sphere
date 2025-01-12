@@ -1,3 +1,4 @@
+import ThemeToggle from "@/components/ThemeToggle";
 import React, { ReactNode } from "react";
 
 interface MainLayoutProps {
@@ -6,7 +7,8 @@ interface MainLayoutProps {
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
-    <div className="dark bg-background text-foreground">
+    <div>
+      <ThemeToggle />
       <main>{children}</main>
     </div>
   );
