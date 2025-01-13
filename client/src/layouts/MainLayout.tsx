@@ -1,3 +1,4 @@
+import Header from "@/components/Header/Header";
 import ThemeToggle from "@/components/ThemeToggle";
 import React, { ReactNode } from "react";
 
@@ -8,8 +9,11 @@ interface MainLayoutProps {
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
     <div>
-      <ThemeToggle />
-      <main>{children}</main>
+      <Header />
+      <main className="mt-14">
+        <ThemeToggle />
+        <div>{children}</div>
+      </main>
     </div>
   );
 };
