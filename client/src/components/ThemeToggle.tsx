@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
+import { MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 
 const ThemeToggle: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
   useEffect(() => {
+    const prefersDarkMode = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+
     const savedMode = localStorage.getItem("darkMode");
-    if (savedMode) {
-      setIsDarkMode(savedMode === "true");
+
+    if (savedMode === "true") {
+      setIsDarkMode(true);
+    } else {
+      setIsDarkMode(prefersDarkMode);
     }
   }, []);
 
@@ -24,8 +32,16 @@ const ThemeToggle: React.FC = () => {
   };
 
   return (
-    <button onClick={toggleTheme}>
-      {isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+    <button
+      onClick={toggleTheme}
+      className="ml-1 mr-4 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+      title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+    >
+      {isDarkMode ? (
+        <MoonIcon className="w-6 h-6 transform transition-transform duration-300 ease-in-out hover:scale-110" />
+      ) : (
+        <SunIcon className="w-6 h-6 text-yellow-500 transform transition-transform duration-300 ease-in-out hover:scale-110" />
+      )}
     </button>
   );
 };

@@ -1,9 +1,10 @@
 import MainLayout from "./layouts/MainLayout";
+import PhotoPage from "./pages/PhotoPage";
 
 const App = () => {
   return (
     <MainLayout>
-      <div>App</div>
+      <PhotoPage />
     </MainLayout>
   );
 };
