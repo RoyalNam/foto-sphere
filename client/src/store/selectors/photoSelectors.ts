@@ -1,5 +1,5 @@
 import { createSelector } from "@reduxjs/toolkit";
-import { PhotoState, RootState } from "@/types";
+import { PhotoState, RootState } from "@/types/stateTypes";
 
 export const selectPhotoState = (state: RootState): PhotoState => state.photo;
 

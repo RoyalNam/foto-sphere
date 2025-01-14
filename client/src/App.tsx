@@ -1,13 +1,11 @@
-import MainLayout from "./layouts/MainLayout";
+import { Route, Routes } from "react-router-dom";
 import PhotoPage from "./pages/PhotoPage";
-import TestPage from "./pages/TestPage";
 
 const App = () => {
   return (
-    <MainLayout>
-      <TestPage />
-      {/* <PhotoPage /> */}
-    </MainLayout>
+    <Routes>
+      <Route path="/" element={<PhotoPage />} />
+    </Routes>
   );
 };
 

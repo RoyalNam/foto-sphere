@@ -6,22 +6,30 @@ import {
   likePhoto,
   unLikePhoto,
 } from "@/services/api";
+
+import { fetchData } from "@/utils";
+import { PHOTO_ACTIONS } from "@/constants";
 import {
   FetchEditorialFeedParams,
   FetchRandomPhotoParams,
-  Photo,
-} from "@/types";
-import { fetchData } from "@/utils";
-import { PHOTO_ACTIONS } from "@/constants";
+} from "@/types/actionParams";
+import { Photo } from "@/types";
 
 export const fetchEditorialFeed = createAsyncThunk<
-  Photo[],
+  { data: Photo[]; hasMore: boolean },
   FetchEditorialFeedParams,
   { rejectValue: string }
 >(
   PHOTO_ACTIONS.FETCH_EDITORIAL_FEED,
-  async ({ page = 1, per_page = 10 }, { rejectWithValue }) => {
-    return fetchData(getEditorialFeed, { page, per_page }, rejectWithValue);
+  async ({ page = 1, per_page = 25 }, { rejectWithValue }) => {
+    try {
+      const data = (await getEditorialFeed({ page, per_page })) as Photo[];
+      const hasMore = data.length === per_page;
+
+      return { data, hasMore };
+    } catch (error) {
+      return rejectWithValue("Failed to load editorial feed.");
+    }
   }
 );
 

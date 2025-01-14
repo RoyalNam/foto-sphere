@@ -1,15 +1,17 @@
-import { Photo } from "./types";
+import { Photo } from ".";
 
 export interface AsyncState<T> {
   data: T;
   isLoading: boolean;
   error: string | null;
+  hasMore: boolean;
 }
 
 export const createAsyncState = <T>(defaultData: T): AsyncState<T> => ({
   data: defaultData,
   isLoading: false,
   error: null,
+  hasMore: true,
 });
 
 export interface PhotoState {

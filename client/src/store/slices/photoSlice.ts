@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   fetchEditorialFeed,
   fetchPhotoById,
@@ -6,8 +6,9 @@ import {
   likePhotoAction,
   unLikePhotoAction,
 } from "../actions";
-import { createAsyncState, PhotoState } from "@/types";
 import { handleAsyncActions } from "@/utils";
+import { createAsyncState, PhotoState } from "@/types/stateTypes";
+import { Photo } from "@/types";
 
 const initialState: PhotoState = {
   editorialFeed: createAsyncState([]),
@@ -40,7 +41,26 @@ const photoSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    handleAsyncActions(builder, fetchEditorialFeed, "editorialFeed");
+    builder
+      .addCase(fetchEditorialFeed.pending, (state) => {
+        state.editorialFeed.isLoading = true;
+        state.editorialFeed.error = null;
+      })
+      .addCase(
+        fetchEditorialFeed.fulfilled,
+        (state, action: PayloadAction<{ data: Photo[]; hasMore: boolean }>) => {
+          state.editorialFeed.isLoading = false;
+          state.editorialFeed.data = state.editorialFeed.data.concat(
+            action.payload.data
+          );
+          state.editorialFeed.error = null;
+          state.editorialFeed.hasMore = action.payload.hasMore;
+        }
+      )
+      .addCase(fetchEditorialFeed.rejected, (state, action) => {
+        state.editorialFeed.isLoading = false;
+        state.editorialFeed.error = action.payload || "An error occurred";
+      });
     handleAsyncActions(builder, fetchPhotoById, "photoDetails");
     handleAsyncActions(builder, fetchRandomPhoto, "randomPhoto");
     handleAsyncActions(builder, likePhotoAction, "likedPhotos");
