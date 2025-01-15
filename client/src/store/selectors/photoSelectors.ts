@@ -17,8 +17,3 @@ export const selectRandomPhoto = createSelector(
   selectPhotoState,
   (state: PhotoState) => state.randomPhoto
 );
-
-export const selectLikedPhotos = createSelector(
-  selectPhotoState,
-  (state: PhotoState) => state.likedPhotos
-);

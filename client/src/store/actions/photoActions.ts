@@ -1,23 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import {
-  getEditorialFeed,
-  getPhotoById,
-  getRandomPhoto,
-  likePhoto,
-  unLikePhoto,
-} from "@/services/api";
-
+import { getEditorialFeed, getPhotoById, getRandomPhoto } from "@/services/api";
 import { fetchData } from "@/utils";
 import { PHOTO_ACTIONS } from "@/constants";
-import {
-  FetchEditorialFeedParams,
-  FetchRandomPhotoParams,
-} from "@/types/actionParams";
+import { FetchRandomPhotoParams, PaginationParams } from "@/types/actionParams";
 import { Photo } from "@/types";
 
 export const fetchEditorialFeed = createAsyncThunk<
   { data: Photo[]; hasMore: boolean },
-  FetchEditorialFeedParams,
+  PaginationParams,
   { rejectValue: string }
 >(
   PHOTO_ACTIONS.FETCH_EDITORIAL_FEED,
@@ -64,19 +54,3 @@ export const fetchRandomPhoto = createAsyncThunk<
     );
   }
 );
-
-export const likePhotoAction = createAsyncThunk<
-  Photo[],
-  string,
-  { rejectValue: string }
->(PHOTO_ACTIONS.LIKE_PHOTO, async (photoId, { rejectWithValue }) => {
-  return fetchData(likePhoto, photoId, rejectWithValue);
-});
-
-export const unLikePhotoAction = createAsyncThunk<
-  Photo[],
-  string,
-  { rejectValue: string }
->(PHOTO_ACTIONS.UNLIKE_PHOTO, async (photoId, { rejectWithValue }) => {
-  return fetchData(unLikePhoto, photoId, rejectWithValue);
-});

@@ -32,16 +32,6 @@ export interface User {
   profile_image: ProfileImage;
 }
 
-export interface Collection {
-  id: number;
-  title: string;
-  published_at: string;
-  last_collected_at: string;
-  updated_at: string;
-  cover_photo: string | null;
-  user: User | null;
-}
-
 export interface PhotoUrls {
   raw: string;
   full: string;
@@ -64,4 +54,19 @@ export interface Photo {
   user: User;
   current_user_collections: Collection[];
   urls: PhotoUrls;
+}
+
+export interface Collection {
+  id: number;
+  title: string;
+  description?: string;
+  published_at: string;
+  last_collected_at: string;
+  updated_at: string;
+  total_photos: number;
+  private: boolean;
+  share_key: string;
+  cover_photo: Photo | null;
+  preview_photos: Photo[];
+  user: User | null;
 }

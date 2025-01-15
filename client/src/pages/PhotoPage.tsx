@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
 import { fetchEditorialFeed } from "@/store/actions";
 import { selectEditorialFeed } from "@/store/selectors";
-import useDebounce from "@/hooks/useDebounce";
-import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import PhotoGallery from "@/components/Photo/PhotoGallery";
-import { AppDispatch } from "@/store/store";
 import MainLayout from "@/layouts/MainLayout";
+import usePaginatedData from "@/hooks/usePaginatedData";
+import { Photo } from "@/types";
+import { resetEditorialFeed } from "@/store/slices/photoSlice";
 
 const LoadingSpinner: React.FC = () => {
   return (
@@ -17,30 +16,21 @@ const LoadingSpinner: React.FC = () => {
 };
 
 const PhotoPage = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const editorialFeed = useSelector(selectEditorialFeed);
-
-  const [page, setPage] = useState(1);
-
-  const loadPhotos = () => {
-    if (!editorialFeed.isLoading && editorialFeed.hasMore) {
-      dispatch(fetchEditorialFeed({ page, per_page: 20 }));
-    }
-  };
-
-  useDebounce(loadPhotos, 300, [page, editorialFeed.hasMore]);
-
-  useInfiniteScroll(() => {
-    if (editorialFeed.hasMore && !editorialFeed.isLoading) {
-      setPage((prevPage) => prevPage + 1);
-    }
-  }, [editorialFeed.hasMore, editorialFeed.isLoading, page]);
+  const {
+    data: photos,
+    isLoading,
+    hasMore,
+  } = usePaginatedData<Photo[]>({
+    fetchAction: fetchEditorialFeed,
+    selector: selectEditorialFeed,
+    resetAction: resetEditorialFeed,
+  });
 
   return (
     <MainLayout>
-      <PhotoGallery photos={editorialFeed.data} />
-      {editorialFeed.isLoading && <LoadingSpinner />}
-      {!editorialFeed.hasMore && <div>No photos available.</div>}
+      <PhotoGallery photos={photos} />
+      {isLoading && <LoadingSpinner />}
+      {hasMore && <div>No photos available.</div>}
     </MainLayout>
   );
 };
