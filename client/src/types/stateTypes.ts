@@ -25,7 +25,7 @@ export interface PhotoState {
 export interface CollectionState {
   collections: AsyncState<Collection[]>;
   collectionDetails: AsyncState<Collection | null>;
-  collectionPhotos: AsyncState<Collection[]>;
+  collectionPhotos: AsyncState<Photo[]>;
 }
 export interface RootState {
   photo: PhotoState;

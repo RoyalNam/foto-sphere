@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import { Collection } from "@/types";
+import { EyeSlashIcon } from "@heroicons/react/24/solid";
 
 export const SkeletonCollectionCard = () => (
   <div>
@@ -19,7 +20,7 @@ export const SkeletonCollectionCard = () => (
 const CollectionCard = ({ collection }: { collection: Collection }) => {
   return (
     <Link to={`/collections/${collection.id}`} className="group">
-      <div className="grid grid-rows-2 grid-flow-col gap-1 aspect-[4/3] rounded overflow-hidden transform transition-transform duration-300 group-hover:scale-105">
+      <div className="relative grid grid-rows-2 grid-flow-col gap-1 aspect-[4/3] rounded overflow-hidden transform transition-transform duration-300 group-hover:scale-105">
         {collection.preview_photos.slice(0, 3).map((photo, index) => (
           <div
             key={index}
@@ -34,6 +35,11 @@ const CollectionCard = ({ collection }: { collection: Collection }) => {
             />
           </div>
         ))}
+        {collection.user?.accepted_tos && (
+          <span className="absolute top-2 left-2 z-10 bg-black/10 rounded-full">
+            <EyeSlashIcon className="size-6" />
+          </span>
+        )}
       </div>
       <div className="py-2 font-bold group-hover:text-foreground text-foreground-muted transition-colors duration-300">
         <div className="flex justify-between items-center">

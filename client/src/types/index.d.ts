@@ -12,6 +12,7 @@ export interface ProfileImage {
 
 export interface User {
   id: string;
+  accepted_tos: boolean;
   updated_at: string;
   username: string;
   name: string;

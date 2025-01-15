@@ -10,6 +10,7 @@ interface UsePaginatedDataProps<T> {
   selector: (state: any) => AsyncState<T>;
   resetAction: () => any;
   perPage?: number;
+  additionalParams?: Record<string, any>;
 }
 
 const usePaginatedData = <T>({
@@ -17,6 +18,7 @@ const usePaginatedData = <T>({
   selector,
   resetAction,
   perPage = 20,
+  additionalParams = {},
 }: UsePaginatedDataProps<T>) => {
   const dispatch = useDispatch<AppDispatch>();
   const { data, isLoading, hasMore } = useSelector(selector);
@@ -24,7 +26,7 @@ const usePaginatedData = <T>({
 
   const loadData = () => {
     if (hasMore && !isLoading) {
-      dispatch(fetchAction({ page, per_page: perPage }));
+      dispatch(fetchAction({ page, per_page: perPage, ...additionalParams }));
     }
   };
 
