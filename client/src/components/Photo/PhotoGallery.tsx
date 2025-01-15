@@ -22,24 +22,20 @@ const PhotoGallery = ({ photos }: { photos: Photo[] }) => {
       fullData: item,
     }));
 
-  if (!filteredPhotos.length) {
-    return <div>No photos available.</div>;
-  }
+  if (!filteredPhotos.length) return;
   return (
-    <>
-      <Gallery
-        photos={filteredPhotos}
-        direction="column"
-        columns={columns}
-        renderImage={(props: any) => (
-          <PhotoCard
-            {...props}
-            expandPhoto={props.photo.fullData}
-            key={props.index}
-          />
-        )}
-      />
-    </>
+    <Gallery
+      photos={filteredPhotos}
+      direction="column"
+      columns={columns}
+      renderImage={(props: any) => (
+        <PhotoCard
+          {...props}
+          expandPhoto={props.photo.fullData}
+          key={props.index}
+        />
+      )}
+    />
   );
 };
 

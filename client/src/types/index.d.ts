@@ -69,5 +69,5 @@ export interface Collection {
   share_key: string;
   cover_photo: Photo | null;
   preview_photos: Photo[];
-  user: User | null;
+  user: User;
 }

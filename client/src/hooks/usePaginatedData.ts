@@ -21,7 +21,7 @@ const usePaginatedData = <T>({
   additionalParams = {},
 }: UsePaginatedDataProps<T>) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { data, isLoading, hasMore } = useSelector(selector);
+  const { data, isLoading, hasMore, error } = useSelector(selector);
   const [page, setPage] = useState(1);
 
   const loadData = () => {
@@ -44,7 +44,7 @@ const usePaginatedData = <T>({
     };
   }, [dispatch, resetAction]);
 
-  return { data, isLoading, hasMore };
+  return { data, isLoading, hasMore, error };
 };
 
 export default usePaginatedData;

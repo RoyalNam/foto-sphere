@@ -1,10 +1,12 @@
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, useState } from "react";
 import {
   ArrowDownTrayIcon,
   BookmarkIcon,
   HeartIcon,
 } from "@heroicons/react/24/outline";
 import { Photo } from "@/types";
+import AvatarWithName from "../ui/AvatarWithName";
+import IconButton from "../ui/IconButton";
 
 interface PhotoCardProps {
   left: number | string;
@@ -27,6 +29,8 @@ const PhotoCard: React.FC<PhotoCardProps> = ({
   direction = "row",
   expandPhoto,
 }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
   const containerStyle: CSSProperties = { ...baseContainerStyle };
 
   if (direction === "column") {
@@ -35,42 +39,46 @@ const PhotoCard: React.FC<PhotoCardProps> = ({
     containerStyle.top = top;
   }
 
+  const handleImageLoad = () => {
+    setIsLoaded(true);
+  };
+
   return (
     <div style={containerStyle}>
       <div className="relative group text-white rounded-xl overflow-hidden">
+        {!isLoaded && <div className="absolute inset-0 bg-btn animate-pulse" />}
         <img
+          src={photo.src}
           alt={expandPhoto.description}
-          className="hover:scale-105 transition-transform duration-300 ease-in-out group-hover:scale-105"
           width={photo.width}
           height={photo.height}
-          src={photo.src}
+          className={`transition-transform duration-300 ease-in-out ${
+            isLoaded ? "opacity-100" : "opacity-0"
+          } hover:scale-105 group-hover:scale-105`}
+          loading="lazy"
+          onLoad={handleImageLoad}
         />
         <div className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
-          <button className="p-1 mr-1 hover:bg-btn-hover rounded" title="Save">
-            <BookmarkIcon className="size-6" />
-          </button>
-          <button className="p-1 hover:bg-btn-hover rounded" title="Like">
-            <HeartIcon className="size-6" />
-          </button>
+          <IconButton title="Save" icon={BookmarkIcon} onClick={() => {}} />
+          <IconButton title="Like" icon={HeartIcon} onClick={() => {}} />
         </div>
         <div className="absolute bottom-2 inset-x-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
           <div className="flex justify-between px-2 items-start">
-            <div className="flex-1 flex items-center gap-1.5 opacity-85 hover:opacity-100 transition-opacity">
-              <img
+            <div className="opacity-85 hover:opacity-100 transition-opacity">
+              <AvatarWithName
+                username={expandPhoto.user.username}
                 src={expandPhoto.user.profile_image.small}
                 alt={expandPhoto.user.id}
-                className="rounded-full"
+                name={expandPhoto.user.name}
+                size="size-8"
+                className="text-sm"
               />
-              <h5 className="line-clamp-1 font-semibold text-sm">
-                {expandPhoto.user.name}
-              </h5>
             </div>
-            <button
-              className="ml-4 p-1 hover:bg-btn-hover rounded "
+            <IconButton
               title="Download"
-            >
-              <ArrowDownTrayIcon className="size-6" />
-            </button>
+              icon={ArrowDownTrayIcon}
+              onClick={() => {}}
+            />
           </div>
         </div>
 

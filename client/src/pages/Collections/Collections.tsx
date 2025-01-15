@@ -2,17 +2,18 @@ import MainLayout from "@/layouts/MainLayout";
 import { selectCollections } from "@/store/selectors";
 import { fetchCollections } from "@/store/actions";
 import { Collection } from "@/types";
-import CollectionCard, {
-  SkeletonCollectionCard,
-} from "@/components/CollectionCard";
+import CollectionCard from "@/components/Collection/CollectionCard";
 import { resetCollections } from "@/store/slices/collectionsSlice";
 import usePaginatedData from "@/hooks/usePaginatedData";
+import SkeletonCollectionCard from "@/components/Loading/SkeletonCollectionCard";
+import Error from "@/components/Error";
 
 const Collections = () => {
   const {
     data: collections,
     isLoading,
     hasMore,
+    error,
   } = usePaginatedData<Collection[]>({
     fetchAction: fetchCollections,
     selector: selectCollections,
@@ -28,6 +29,7 @@ const Collections = () => {
           told.
         </p>
       </div>
+      {error && <Error errorMessage="Something went wrong!" />}
       <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
         {collections.map((collection: Collection) => (
           <CollectionCard collection={collection} key={collection.id} />
@@ -37,7 +39,7 @@ const Collections = () => {
             <SkeletonCollectionCard key={index} />
           ))}
       </div>
-      {!hasMore && !isLoading && (
+      {!hasMore && (
         <div className="text-center mt-4 text-gray-500">
           No more collections to load.
         </div>
