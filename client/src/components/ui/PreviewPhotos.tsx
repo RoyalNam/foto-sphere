@@ -1,5 +1,5 @@
-import { Photo } from "@/types";
 import { EyeSlashIcon } from "@heroicons/react/24/outline";
+import { Photo } from "@/types";
 
 const PreviewPhotos = ({
   photos,

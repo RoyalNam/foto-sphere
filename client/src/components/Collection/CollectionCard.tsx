@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Collection } from "@/types";
-import PreviewPhotos from "./PreviewPhotos";
+import PreviewPhotos from "../ui/PreviewPhotos";
 import CollectionInfo from "./CollectionInfo";
 
 const CollectionCard = ({ collection }: { collection: Collection }) => {

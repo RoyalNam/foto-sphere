@@ -71,3 +71,23 @@ export interface Collection {
   preview_photos: Photo[];
   user: User;
 }
+
+interface Topic {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  published_at: string;
+  updated_at: string;
+  starts_at: string | null;
+  ends_at: string | null;
+  only_submissions_after: string | null;
+  visibility: string;
+  featured: boolean;
+  total_photos: number;
+  status: string;
+  owners: User[];
+  top_contributors: User[];
+  cover_photo: Photo;
+  preview_photos: Photo[];
+}

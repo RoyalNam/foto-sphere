@@ -1,3 +1,5 @@
 import photoReducer from "./photoSlice";
 import collectionReducer from "./collectionsSlice";
-export { photoReducer, collectionReducer };
+import topicReducer from "./topicSlice";
+
+export { photoReducer, collectionReducer, topicReducer };

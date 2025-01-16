@@ -1,12 +1,12 @@
 import { USER_ENDPOINTS } from "@/services/constants/endpoints";
 import { unsplashApi } from "@/services/utils/apiClient";
-import { OrderByBasic } from "@/types/orderByOptions";
+import { SortOptions, SortOptionsBasic } from "@/types/orderByOptions";
 
 interface GetUserParams {
   username: string;
   page?: number;
   per_page?: number;
-  order_by?: OrderByBasic;
+  order_by?: SortOptionsBasic | SortOptions;
 }
 
 export const getUserInfo = async (username: string) => {

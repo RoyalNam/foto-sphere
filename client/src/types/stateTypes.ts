@@ -1,4 +1,4 @@
-import { Collection, Photo } from ".";
+import { Collection, Photo, Topic } from ".";
 
 export interface AsyncState<T> {
   data: T;
@@ -27,7 +27,14 @@ export interface CollectionState {
   collectionDetails: AsyncState<Collection | null>;
   collectionPhotos: AsyncState<Photo[]>;
 }
+
+export interface TopicState {
+  topics: AsyncState<Topic[]>;
+  topicDetails: AsyncState<Topic | null>;
+  topicPhotos: AsyncState<Photo[]>;
+}
 export interface RootState {
   photo: PhotoState;
   collection: CollectionState;
+  topic: TopicState;
 }
