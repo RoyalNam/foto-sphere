@@ -1,23 +1,11 @@
 import { PHOTO_ENDPOINTS } from "@/services/constants/endpoints";
 import { unsplashApi } from "@/services/utils/apiClient";
-
-interface GetEditorialFeedParams {
-  page?: number;
-  per_page?: number;
-}
-
-interface GetRandomPhotoParams {
-  collections?: string;
-  topics?: string;
-  username?: string;
-  query?: string;
-  count?: number;
-}
+import { GetRandomPhotoParams, PaginationParams } from "@/types/apiTypes";
 
 export const getEditorialFeed = async ({
   page = 1,
   per_page = 10,
-}: GetEditorialFeedParams) => {
+}: PaginationParams) => {
   const response = await unsplashApi.get(PHOTO_ENDPOINTS.editorialFeed, {
     params: {
       page,
@@ -48,15 +36,5 @@ export const getRandomPhoto = async ({
       count,
     },
   });
-  return response.data;
-};
-
-export const likePhoto = async (id: string) => {
-  const response = await unsplashApi.post(PHOTO_ENDPOINTS.likePhoto(id));
-  return response.data;
-};
-
-export const unLikePhoto = async (id: string) => {
-  const response = await unsplashApi.delete(PHOTO_ENDPOINTS.likePhoto(id));
   return response.data;
 };

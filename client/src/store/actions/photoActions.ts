@@ -2,8 +2,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getEditorialFeed, getPhotoById, getRandomPhoto } from "@/services/api";
 import { fetchData } from "@/utils";
 import { PHOTO_ACTIONS } from "@/constants";
-import { FetchRandomPhotoParams, PaginationParams } from "@/types/actionParams";
 import { Photo } from "@/types";
+import { GetRandomPhotoParams, PaginationParams } from "@/types/apiTypes";
 
 export const fetchEditorialFeed = createAsyncThunk<
   { data: Photo[]; hasMore: boolean },
@@ -33,18 +33,12 @@ export const fetchPhotoById = createAsyncThunk<
 
 export const fetchRandomPhoto = createAsyncThunk<
   Photo,
-  FetchRandomPhotoParams,
+  GetRandomPhotoParams,
   { rejectValue: string }
 >(
   PHOTO_ACTIONS.FETCH_RANDOM_PHOTO,
   async (
-    {
-      collections = "",
-      topics = "",
-      username = "",
-      query = "",
-      count = 1,
-    }: FetchRandomPhotoParams,
+    { collections = "", topics = "", username = "", query = "", count = 1 },
     { rejectWithValue }
   ) => {
     return fetchData(

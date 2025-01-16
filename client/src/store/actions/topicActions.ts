@@ -2,16 +2,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getTopics, getTopicByIdOrSlug, getTopicPhotos } from "@/services/api";
 import { TOPIC_ACTIONS } from "@/constants/actions";
 import { Photo, Topic } from "@/types";
-import { SortOptionsBasic, TopicSortOptions } from "@/types/orderByOptions";
+import { GetTopicPhotosParams, GetTopicsParams } from "@/types/apiTypes";
 
 export const fetchTopics = createAsyncThunk<
   { data: Topic[]; hasMore: boolean },
-  {
-    ids?: string;
-    page?: number;
-    per_page?: number;
-    order_by?: TopicSortOptions;
-  },
+  GetTopicsParams,
   { rejectValue: string }
 >(
   TOPIC_ACTIONS.FETCH_TOPICS,
@@ -48,12 +43,7 @@ export const fetchTopicByIdOrSlug = createAsyncThunk<
 
 export const fetchTopicPhotos = createAsyncThunk<
   { data: Photo[]; hasMore: boolean },
-  {
-    id_or_slug: string;
-    page?: number;
-    per_page?: number;
-    order_by?: SortOptionsBasic;
-  },
+  GetTopicPhotosParams,
   { rejectValue: string }
 >(
   TOPIC_ACTIONS.FETCH_TOPIC_PHOTOS,

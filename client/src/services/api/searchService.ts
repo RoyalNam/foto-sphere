@@ -1,19 +1,11 @@
 import { SEARCH_ENDPOINTS } from "@/services/constants/endpoints";
 import { unsplashApi } from "@/services/utils/apiClient";
-
-interface SearchParams {
-  query: string;
-  page?: number;
-  per_page?: number;
-  color?: string;
-  lang?: string;
-}
+import { SearchParams } from "@/types/apiTypes";
 
 export const searchPhotos = async ({
   query,
   page = 1,
   per_page = 10,
-  color = "",
   lang = "en",
 }: SearchParams) => {
   const response = await unsplashApi.get(SEARCH_ENDPOINTS.searchPhotos, {
@@ -21,7 +13,6 @@ export const searchPhotos = async ({
       query,
       page,
       per_page,
-      color,
       lang,
     },
   });

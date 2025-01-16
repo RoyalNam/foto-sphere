@@ -1,21 +1,11 @@
 import { COLLECTION_ENDPOINTS } from "@/services/constants/endpoints";
 import { unsplashApi } from "@/services/utils/apiClient";
-
-interface GetCollectionsParams {
-  page?: number;
-  per_page?: number;
-}
-
-interface GetCollectionPhotosParams {
-  id: string;
-  page?: number;
-  per_page?: number;
-}
+import { PaginationParams, PaginationWithId } from "@/types/apiTypes";
 
 export const getCollections = async ({
   page = 1,
   per_page = 10,
-}: GetCollectionsParams) => {
+}: PaginationParams) => {
   const response = await unsplashApi.get(COLLECTION_ENDPOINTS.listCollections, {
     params: {
       page,
@@ -36,7 +26,7 @@ export const getCollectionPhotos = async ({
   id,
   page = 1,
   per_page = 10,
-}: GetCollectionPhotosParams) => {
+}: PaginationWithId) => {
   const response = await unsplashApi.get(
     COLLECTION_ENDPOINTS.collectionPhotos(id),
     {

@@ -6,11 +6,8 @@ import {
 } from "@/services/api";
 import { COLLECTION_ACTIONS } from "@/constants/actions";
 import { fetchData } from "@/utils";
-import {
-  FetchCollectionPhotosParams,
-  PaginationParams,
-} from "@/types/actionParams";
 import { Collection, Photo } from "@/types";
+import { PaginationParams, PaginationWithId } from "@/types/apiTypes";
 
 export const fetchCollections = createAsyncThunk<
   { data: Collection[]; hasMore: boolean },
@@ -43,7 +40,7 @@ export const fetchCollectionById = createAsyncThunk<
 
 export const fetchCollectionPhotos = createAsyncThunk<
   { data: Photo[]; hasMore: boolean },
-  FetchCollectionPhotosParams,
+  PaginationWithId,
   { rejectValue: string }
 >(
   COLLECTION_ACTIONS.FETCH_COLLECTION_PHOTOS,

@@ -1,12 +1,6 @@
 import { TOPIC_ENDPOINTS } from "@/services/constants/endpoints";
 import { unsplashApi } from "@/services/utils/apiClient";
-import { SortOptionsBasic, TopicSortOptions } from "@/types/orderByOptions";
-
-interface GetTopicsParams {
-  page?: number;
-  per_page?: number;
-  order_by?: TopicSortOptions;
-}
+import { GetTopicPhotosParams, GetTopicsParams } from "@/types/apiTypes";
 
 export const getTopics = async ({
   page = 1,
@@ -35,12 +29,7 @@ export const getTopicPhotos = async ({
   page = 1,
   per_page = 10,
   order_by = "latest",
-}: {
-  id_or_slug: string;
-  page?: number;
-  per_page?: number;
-  order_by?: SortOptionsBasic;
-}) => {
+}: GetTopicPhotosParams) => {
   const response = await unsplashApi.get(
     TOPIC_ENDPOINTS.topicPhotos(id_or_slug),
     {
