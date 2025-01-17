@@ -1,15 +1,14 @@
-import React, { ReactNode } from "react";
+import React from "react";
+import { Outlet } from "react-router-dom";
 import Header from "@/components/Header/Header";
 
-interface MainLayoutProps {
-  children: ReactNode;
-}
-
-const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+const MainLayout: React.FC = () => {
   return (
     <div className="w-full container">
       <Header />
-      <main className="mt-14 py-2">{children}</main>
+      <main className="mt-14 py-2">
+        <Outlet />
+      </main>
     </div>
   );
 };

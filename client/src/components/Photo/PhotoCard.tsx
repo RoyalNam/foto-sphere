@@ -1,4 +1,5 @@
 import React, { CSSProperties, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   ArrowDownTrayIcon,
   BookmarkIcon,
@@ -9,6 +10,7 @@ import AvatarWithName from "../ui/AvatarWithName";
 import IconButton from "../ui/IconButton";
 
 interface PhotoCardProps {
+  id: string;
   left: number | string;
   top: number | string;
   photo: any;
@@ -23,6 +25,7 @@ const baseContainerStyle: CSSProperties = {
 };
 
 const PhotoCard: React.FC<PhotoCardProps> = ({
+  id,
   photo,
   left,
   top,
@@ -81,8 +84,9 @@ const PhotoCard: React.FC<PhotoCardProps> = ({
             />
           </div>
         </div>
-
-        <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        <Link to={`/photos/${id}`}>
+          <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        </Link>
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-import MainLayout from "@/layouts/MainLayout";
 import { selectCollections } from "@/store/selectors";
 import { fetchCollections } from "@/store/actions";
 import { Collection } from "@/types";
@@ -7,8 +6,9 @@ import { resetCollections } from "@/store/slices/collectionsSlice";
 import usePaginatedData from "@/hooks/usePaginatedData";
 import SkeletonCollectionCard from "@/components/Loading/SkeletonCollectionCard";
 import Error from "@/components/Error";
+import HeaderSection from "@/components/ui/HeaderSection";
 
-const Collections = () => {
+const CollectionsPage = () => {
   const {
     data: collections,
     isLoading,
@@ -21,14 +21,13 @@ const Collections = () => {
   });
 
   return (
-    <MainLayout>
-      <div className="mt-1 mb-2">
-        <h2 className="font-bold text-2xl">Collections</h2>
-        <p>
-          Our collections are more than just items—they're stories waiting to be
-          told.
-        </p>
-      </div>
+    <>
+      <HeaderSection
+        title="Collections"
+        description="Our collections are more than just items—they're stories waiting to be
+          told."
+      />
+
       {error && <Error errorMessage="Something went wrong!" />}
       <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
         {collections.map((collection: Collection) => (
@@ -44,8 +43,8 @@ const Collections = () => {
           No more collections to load.
         </div>
       )}
-    </MainLayout>
+    </>
   );
 };
 
-export default Collections;
+export default CollectionsPage;

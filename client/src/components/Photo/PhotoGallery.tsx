@@ -33,6 +33,7 @@ const PhotoGallery = ({ photos }: { photos: Photo[] }) => {
           {...props}
           expandPhoto={props.photo.fullData}
           key={props.index}
+          id={props.photo.fullData.id}
         />
       )}
     />
