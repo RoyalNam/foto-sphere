@@ -6,21 +6,22 @@ import NotFoundPage from "./pages/NotFoundPage";
 import TopicsPage from "./pages/Topic/TopicsPage";
 import TopicDetailPage from "./pages/Topic/TopicDetailPage";
 import MainLayout from "./layouts/MainLayout";
-import PhotoDetailPage from "./pages/Photo/PhotoDetailPage";
+import { ScrollLockProvider } from "./context/ScrollLockContext";
 
 const App = () => {
   return (
-    <Routes>
-      <Route element={<MainLayout />}>
-        <Route path="/" element={<PhotosPage />} />
-        <Route path="/photos/:id" element={<PhotoDetailPage />} />
-        <Route path="/collections" element={<CollectionsPage />} />
-        <Route path="/collections/:id" element={<CollectionDetailPage />} />
-        <Route path="/topics" element={<TopicsPage />} />
-        <Route path="/topics/:slug" element={<TopicDetailPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Route>
-    </Routes>
+    <ScrollLockProvider>
+      <Routes>
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<PhotosPage />} />
+          <Route path="/collections" element={<CollectionsPage />} />
+          <Route path="/collections/:id" element={<CollectionDetailPage />} />
+          <Route path="/topics" element={<TopicsPage />} />
+          <Route path="/topics/:slug" element={<TopicDetailPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Routes>
+    </ScrollLockProvider>
   );
 };
 

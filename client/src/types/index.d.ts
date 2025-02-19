@@ -50,11 +50,15 @@ export interface Photo {
   color: string;
   blur_hash: string;
   likes: number;
+  views: number;
+  downloads: number;
   liked_by_user: boolean;
   description: string;
   user: User;
   current_user_collections: Collection[];
   urls: PhotoUrls;
+  alt_description: string;
+  slug: string;
 }
 
 export interface Collection {

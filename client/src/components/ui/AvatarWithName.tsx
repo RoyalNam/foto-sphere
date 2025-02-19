@@ -20,13 +20,15 @@ const AvatarWithName: React.FC<AvatarWithNameProps> = ({
   className = "",
 }) => {
   return (
-    <Link
-      to={`/@${username}`}
-      className={`flex-1 flex items-center gap-1.5 ${className}`}
-    >
-      <img src={src} alt={alt} className={`rounded-full ${size}`} />
-      <h5 className="line-clamp-1 font-semibold">{name}</h5>
-    </Link>
+    <div className="flex-1 inline-flex">
+      <Link
+        to={`/@${username}`}
+        className={`flex items-center gap-1.5 ${className}`}
+      >
+        <img src={src} alt={alt} className={`rounded-full ${size}`} />
+        <h5 className="line-clamp-1 font-semibold">{name}</h5>
+      </Link>
+    </div>
   );
 };
 
