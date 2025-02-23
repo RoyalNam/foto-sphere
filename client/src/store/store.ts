@@ -1,11 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { photoReducer, collectionReducer, topicReducer } from "./slices";
+import {
+  photoReducer,
+  collectionReducer,
+  topicReducer,
+  searchReducer,
+} from "./slices";
 
 const store = configureStore({
   reducer: {
     photo: photoReducer,
     collection: collectionReducer,
     topic: topicReducer,
+    search: searchReducer,
   },
 });
 

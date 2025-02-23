@@ -15,3 +15,9 @@ export const TOPIC_ACTIONS = {
   FETCH_TOPIC_BY_ID_OR_SLUG: "topic/fetchTopicByIdOrSlug",
   FETCH_TOPIC_PHOTOS: "topic/fetchTopicPhotos",
 };
+
+export const SEARCH_ACTIONS = {
+  SEARCH_PHOTOS: "search/SEARCH_PHOTOS",
+  SEARCH_COLLECTIONS: "search/SEARCH_COLLECTIONS",
+  SEARCH_USERS: "search/SEARCH_USERS",
+};

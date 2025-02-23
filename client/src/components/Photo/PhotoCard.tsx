@@ -7,8 +7,8 @@ import {
 import { Photo } from "@/types";
 import AvatarWithName from "../ui/AvatarWithName";
 import IconButton from "../ui/IconButton";
-import PhotoModal from "@/pages/Photo/PhotoDetailPage";
 import { useScrollLock } from "@/context/ScrollLockContext";
+import { useModal } from "@/context/ModalContext";
 
 interface PhotoCardProps {
   id: string;
@@ -34,7 +34,8 @@ const PhotoCard: React.FC<PhotoCardProps> = ({
   expandPhoto,
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const { lockScroll } = useScrollLock();
+  const { openModal } = useModal();
 
   const containerStyle: CSSProperties = { ...baseContainerStyle };
 
@@ -48,73 +49,58 @@ const PhotoCard: React.FC<PhotoCardProps> = ({
     setIsLoaded(true);
   };
 
-  const { lockScroll, unlockScroll } = useScrollLock();
-
-  const openModal = () => {
-    lockScroll();
-    setIsOpen(true);
-  };
-
-  const closeModal = () => {
-    unlockScroll();
-    setIsOpen(false);
-  };
-
   return (
-    <>
-      <div
-        style={{
-          ...containerStyle,
-          width: `${photo.width}px`,
-          height: `${photo.height}px`,
-        }}
-        className="p-1"
-      >
-        <div className="relative group text-white rounded-xl overflow-hidden">
-          {!isLoaded && (
-            <div className="absolute inset-0 bg-btn animate-pulse" />
-          )}
-          <img
-            src={photo.src}
-            alt={expandPhoto.description}
-            className={`transition-transform duration-300 ease-in-out w-full h-full object-cover ${
-              isLoaded ? "opacity-100" : "opacity-0"
-            } hover:scale-105 group-hover:scale-105`}
-            loading="lazy"
-            onLoad={handleImageLoad}
-          />
-          <div className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
-            <IconButton title="Save" icon={BookmarkIcon} onClick={() => {}} />
-            <IconButton title="Like" icon={HeartIcon} onClick={() => {}} />
-          </div>
-          <div className="absolute bottom-2 inset-x-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
-            <div className="flex justify-between px-2 items-start">
-              <div className="opacity-85 hover:opacity-100 transition-opacity">
-                <AvatarWithName
-                  username={expandPhoto.user.username}
-                  src={expandPhoto.user.profile_image.small}
-                  alt={expandPhoto.user.id}
-                  name={expandPhoto.user.name}
-                  size="size-8"
-                  className="text-sm"
-                />
-              </div>
-              <IconButton
-                title="Download"
-                icon={ArrowDownTrayIcon}
-                onClick={() => {}}
+    <div
+      style={{
+        ...containerStyle,
+        width: `${photo.width}px`,
+        height: `${photo.height}px`,
+      }}
+      className="p-1"
+    >
+      <div className="relative overflow-hidden text-white  group rounded-xl">
+        {!isLoaded && <div className="absolute inset-0 bg-btn animate-pulse" />}
+        <img
+          src={photo.src}
+          alt={expandPhoto.description}
+          className={`transition-transform duration-300 ease-in-out w-full h-full object-cover ${
+            isLoaded ? "opacity-100" : "opacity-0"
+          } hover:scale-105 group-hover:scale-105`}
+          loading="lazy"
+          onLoad={handleImageLoad}
+        />
+        <div className="absolute z-10 transition-opacity opacity-0 top-2 right-2 group-hover:opacity-100">
+          <IconButton title="Save" icon={BookmarkIcon} onClick={() => {}} />
+          <IconButton title="Like" icon={HeartIcon} onClick={() => {}} />
+        </div>
+        <div className="absolute inset-x-0 z-10 transition-opacity opacity-0 bottom-2 group-hover:opacity-100">
+          <div className="flex items-start justify-between px-2">
+            <div className="transition-opacity opacity-85 hover:opacity-100">
+              <AvatarWithName
+                username={expandPhoto.user.username}
+                src={expandPhoto.user.profile_image.small}
+                alt={expandPhoto.user.id}
+                name={expandPhoto.user.name}
+                size="size-8"
+                className="text-sm"
               />
             </div>
+            <IconButton
+              title="Download"
+              icon={ArrowDownTrayIcon}
+              onClick={() => {}}
+            />
           </div>
-          <div
-            onClick={openModal}
-            className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
-          ></div>
         </div>
+        <div
+          onClick={() => {
+            openModal(expandPhoto);
+            lockScroll();
+          }}
+          className="absolute inset-0 transition-opacity bg-black bg-opacity-50 opacity-0 cursor-pointer group-hover:opacity-100"
+        ></div>
       </div>
-
-      {isOpen && <PhotoModal photoId={expandPhoto.id} onClose={closeModal} />}
-    </>
+    </div>
   );
 };
 

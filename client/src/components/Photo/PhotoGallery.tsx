@@ -3,7 +3,7 @@ import { Photo } from "@/types";
 import PhotoCard from "@/components/Photo/PhotoCard";
 
 const columns = (containerWidth: number) => {
-  let columns = 1;
+  let columns = 2;
   if (containerWidth >= 640) columns = 2; // sm
   if (containerWidth >= 768) columns = 3; // md
   if (containerWidth >= 1024) columns = 4; // lg

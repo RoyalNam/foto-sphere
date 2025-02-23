@@ -22,8 +22,8 @@ export const ScrollLockProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, [lockCount]);
 
-  const lockScroll = () => setLockCount((prev) => prev + 1);
-  const unlockScroll = () => setLockCount((prev) => Math.max(prev - 1, 0));
+  const lockScroll = () => setLockCount(1);
+  const unlockScroll = () => setLockCount(0);
 
   return (
     <ScrollLockContext.Provider value={{ lockScroll, unlockScroll }}>

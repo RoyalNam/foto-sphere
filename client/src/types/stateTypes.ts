@@ -1,4 +1,4 @@
-import { Collection, Photo, Topic } from ".";
+import { Collection, ExtendedPhoto, Photo, Topic, User } from ".";
 
 export interface AsyncState<T> {
   data: T;
@@ -19,7 +19,7 @@ export const createAsyncState = <T>(
 
 export interface PhotoState {
   editorialFeed: AsyncState<Photo[]>;
-  photoDetails: AsyncState<Photo | null>;
+  photoDetails: AsyncState<ExtendedPhoto | null>;
   randomPhoto: AsyncState<Photo | null>;
 }
 export interface CollectionState {
@@ -33,8 +33,16 @@ export interface TopicState {
   topicDetails: AsyncState<Topic | null>;
   topicPhotos: AsyncState<Photo[]>;
 }
+
+export interface SearchState {
+  photos: AsyncState<Photo[]>;
+  collections: AsyncState<Collection[]>;
+  users: AsyncState<User[]>;
+}
+
 export interface RootState {
   photo: PhotoState;
   collection: CollectionState;
   topic: TopicState;
+  search: SearchState;
 }

@@ -41,24 +41,53 @@ export interface PhotoUrls {
   thumb: string;
 }
 
+export interface ExifData {
+  make: string;
+  model: string;
+  name: string;
+  exposure_time: string;
+  aperture: string;
+  focal_length: string;
+  iso: number;
+}
+
+export interface Location {
+  city: string;
+  country: string;
+  position: {
+    latitude: number;
+    longitude: number;
+  };
+}
+
+export interface Tag {
+  type?: string;
+  title: string;
+}
+
 export interface Photo {
-  id: string;
-  created_at: string;
-  updated_at: string;
-  width: number;
-  height: number;
-  color: string;
-  blur_hash: string;
-  likes: number;
-  views: number;
-  downloads: number;
-  liked_by_user: boolean;
-  description: string;
-  user: User;
-  current_user_collections: Collection[];
-  urls: PhotoUrls;
   alt_description: string;
+  color: string;
+  created_at: string;
+  current_user_collections: Collection[];
+  description: string;
+  height: number;
+  id: string;
+  liked_by_user: boolean;
+  likes: number;
   slug: string;
+  updated_at: string;
+  urls: PhotoUrls;
+  user: User;
+  width: number;
+}
+export interface ExtendedPhoto extends Photo {
+  blur_hash: string;
+  downloads: number;
+  exif: ExifData;
+  location: Location;
+  tags: Tag[];
+  views: number;
 }
 
 export interface Collection {
