@@ -9,6 +9,7 @@ import AvatarWithName from "../ui/AvatarWithName";
 import IconButton from "../ui/IconButton";
 import { useScrollLock } from "@/context/ScrollLockContext";
 import { useModal } from "@/context/ModalContext";
+import { downloadImage, sanitizeFilename } from "@/utils";
 
 interface PhotoCardProps {
   id: string;
@@ -58,7 +59,7 @@ const PhotoCard: React.FC<PhotoCardProps> = ({
       }}
       className="p-1"
     >
-      <div className="relative overflow-hidden text-white  group rounded-xl">
+      <div className="relative overflow-hidden text-white group rounded-xl">
         {!isLoaded && <div className="absolute inset-0 bg-btn animate-pulse" />}
         <img
           src={photo.src}
@@ -88,7 +89,12 @@ const PhotoCard: React.FC<PhotoCardProps> = ({
             <IconButton
               title="Download"
               icon={ArrowDownTrayIcon}
-              onClick={() => {}}
+              onClick={() =>
+                downloadImage(
+                  expandPhoto.urls.full || expandPhoto.urls.regular,
+                  `${sanitizeFilename(expandPhoto.alt_description)}.jpg`
+                )
+              }
             />
           </div>
         </div>

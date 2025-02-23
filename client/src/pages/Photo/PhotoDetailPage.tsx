@@ -17,7 +17,7 @@ import PaginatedPhotoGallery from "@/components/Photo/PaginatedPhotoGallery";
 import usePaginatedData from "@/hooks/usePaginatedData";
 import { Photo } from "@/types";
 import { resetSearchPhotos } from "@/store/slices/searchSlice";
-import { formatNumber } from "@/utils";
+import { downloadImage, formatNumber, sanitizeFilename } from "@/utils";
 
 const StatItem = ({ label, value }: { label: string; value: any }) => (
   <div className="flex flex-col">
@@ -62,8 +62,6 @@ const PhotoDetailPage: React.FC<PhotoModalProps> = ({ photo, onClose }) => {
     dependencies: [photo.id],
   });
 
-  console.log("Fetching related photos for:", photoDetail);
-
   const closeModal = () => setIsOpen(false);
   const openModal = () => setIsOpen(true);
 
@@ -101,7 +99,15 @@ const PhotoDetailPage: React.FC<PhotoModalProps> = ({ photo, onClose }) => {
             className="border border-border text-border"
           />
         </div>
-        <button className="px-4 py-1 text-white rounded-full bg-btn hover:bg-btn-hover">
+        <button
+          className="px-4 py-1 text-white rounded-full bg-btn hover:bg-btn-hover"
+          onClick={() =>
+            downloadImage(
+              photo.urls.full || photo.urls.regular,
+              `${sanitizeFilename(photo.alt_description)}.jpg`
+            )
+          }
+        >
           Download
         </button>
       </div>
