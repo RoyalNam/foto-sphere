@@ -1,15 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 const useInfiniteScroll = (
   callback: () => void,
   dependencies: any[],
   scrollContainer?: React.RefObject<HTMLElement>
 ) => {
+  const isFetching = useRef(false);
+
   useEffect(() => {
     const container = scrollContainer?.current || window;
 
     const handleScroll = () => {
-      if (!container) return;
+      if (!container || isFetching.current) return;
 
       let bottom = false;
       if (container instanceof HTMLElement) {
@@ -22,7 +24,11 @@ const useInfiniteScroll = (
           document.documentElement.scrollHeight - 300;
       }
 
-      if (bottom) callback();
+      if (bottom) {
+        isFetching.current = true;
+        callback();
+        setTimeout(() => (isFetching.current = false), 500);
+      }
     };
 
     container.addEventListener("scroll", handleScroll);

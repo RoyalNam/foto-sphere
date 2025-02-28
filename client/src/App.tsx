@@ -9,6 +9,7 @@ import MainLayout from "./layouts/MainLayout";
 import { ScrollLockProvider } from "./context/ScrollLockContext";
 import { ModalProvider } from "./context/ModalContext";
 import GlobalModal from "./pages/GlobalModal";
+import SearchResultsPage from "./pages/SearchResultsPage";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
             <Route path="/collections/:id" element={<CollectionDetailPage />} />
             <Route path="/topics" element={<TopicsPage />} />
             <Route path="/topics/:slug" element={<TopicDetailPage />} />
+            <Route path="/search" element={<SearchResultsPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>

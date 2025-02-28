@@ -16,7 +16,15 @@ export const handleAsyncReducers = (
 
       if (action.payload.hasMore !== undefined) {
         state[stateKey].hasMore = action.payload.hasMore;
-        state[stateKey].data = state[stateKey].data.concat(action.payload.data);
+
+        const existingIds = new Set(
+          state[stateKey].data.map((item: any) => item.id)
+        );
+        const filteredData = action.payload.data.filter(
+          (item: any) => !existingIds.has(item.id)
+        );
+
+        state[stateKey].data = [...state[stateKey].data, ...filteredData];
       } else {
         state[stateKey].data = action.payload;
       }

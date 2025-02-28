@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useSearchBar } from "@/hooks/useSearch";
 
@@ -20,7 +21,25 @@ const SearchBar: React.FC<SearchBarProps> = ({
     handleInputFocus,
     handleInputBlur,
     handleClearSearch,
+    handleSearchSubmit,
+    resetSearch,
   } = useSearchBar();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!location.pathname.startsWith("/search")) {
+      resetSearch();
+    }
+  }, [location.pathname]);
+
+  const handleSelectSuggestion = (suggestion: string) => {
+    handleSearchChange({
+      target: { value: suggestion },
+    } as React.ChangeEvent<HTMLInputElement>);
+    inputRef.current?.blur();
+    navigate(`/search?q=${encodeURIComponent(suggestion)}`);
+  };
 
   return (
     <div
@@ -28,7 +47,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
         isSearchOpen ? "block" : "hidden"
       } md:block`}
     >
-      <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 size-5 cursor-pointer text-foreground-muted" />
+      <MagnifyingGlassIcon className="absolute transform -translate-y-1/2 cursor-pointer left-3 top-1/2 size-5 text-foreground-muted" />
       {searchQuery && (
         <button
           onClick={handleClearSearch}
@@ -53,16 +72,22 @@ const SearchBar: React.FC<SearchBarProps> = ({
           closeSearchOnBlur();
         }}
         onChange={handleSearchChange}
-        className="w-full pl-10 pr-3 py-2 border bg-transparent border-black/10 dark:border-white/20 rounded-full focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300"
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            handleInputBlur();
+            handleSearchSubmit();
+          }
+        }}
+        className="w-full py-2 pl-10 pr-3 transition-all duration-300 bg-transparent border rounded-full border-black/10 dark:border-white/20 focus:outline-none focus:ring-1 focus:ring-blue-500"
       />
       {isSuggestionsVisible && filteredSuggestions.length > 0 && (
         <ul className="absolute left-0 right-0 mt-1 border border-border shadow-lg rounded overflow-y-auto min-w-[448px] max-h-[496px] bg-background">
           {filteredSuggestions.map((suggestion, index) => (
             <li
               key={index}
-              onMouseDown={() => {
-                console.log("suggestion", suggestion);
-                handleInputBlur();
+              onMouseDown={(e) => {
+                e.preventDefault();
+                setTimeout(() => handleSelectSuggestion(suggestion), 0);
               }}
               className="px-4 py-1 cursor-pointer hover:bg-background-alt"
             >

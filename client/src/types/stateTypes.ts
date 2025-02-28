@@ -21,6 +21,7 @@ export interface PhotoState {
   editorialFeed: AsyncState<Photo[]>;
   photoDetails: AsyncState<ExtendedPhoto | null>;
   randomPhoto: AsyncState<Photo | null>;
+  relatedPhotos: AsyncState<Photo[]>;
 }
 export interface CollectionState {
   collections: AsyncState<Collection[]>;

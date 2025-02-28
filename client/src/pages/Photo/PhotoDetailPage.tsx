@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   BookmarkIcon,
   HeartIcon,
@@ -7,16 +8,16 @@ import {
 } from "@heroicons/react/24/outline";
 import IconButton from "@/components/ui/IconButton";
 import AvatarWithName from "@/components/ui/AvatarWithName";
-import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
 import { fetchPhotoById, fetchSearchPhotos } from "@/store/actions";
-import { resetPhotoDetails } from "@/store/slices/photoSlice";
-import { useSelector } from "react-redux";
-import { selectPhotoDetails, selectSearchPhotos } from "@/store/selectors";
+import {
+  resetPhotoDetails,
+  resetRelatedPhotos,
+} from "@/store/slices/photoSlice";
+import { selectPhotoDetails, selectRelatedPhotos } from "@/store/selectors";
 import PaginatedPhotoGallery from "@/components/Photo/PaginatedPhotoGallery";
 import usePaginatedData from "@/hooks/usePaginatedData";
 import { Photo } from "@/types";
-import { resetSearchPhotos } from "@/store/slices/searchSlice";
 import { downloadImage, formatNumber, sanitizeFilename } from "@/utils";
 
 const StatItem = ({ label, value }: { label: string; value: any }) => (
@@ -54,8 +55,8 @@ const PhotoDetailPage: React.FC<PhotoModalProps> = ({ photo, onClose }) => {
     error: relatedPhotosError,
   } = usePaginatedData<Photo[]>({
     fetchAction: fetchSearchPhotos,
-    selector: selectSearchPhotos,
-    resetAction: resetSearchPhotos,
+    selector: selectRelatedPhotos,
+    resetAction: resetRelatedPhotos,
     additionalParams: { query: photo.alt_description },
     perPage: 10,
     scrollContainer: scrollContainerRef,

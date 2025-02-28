@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import useDebounce from "@/hooks/useDebounce";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { AppDispatch } from "@/store/store";
 import { AsyncState } from "@/types/stateTypes";
@@ -27,28 +26,33 @@ const usePaginatedData = <T>({
   const dispatch = useDispatch<AppDispatch>();
   const { data, isLoading, hasMore, error } = useSelector(selector);
   const [page, setPage] = useState(1);
+  const isFetching = useRef(false);
+  const loadedIds = useRef(new Set<string>());
 
-  const loadData = () => {
-    if (hasMore && !isLoading) {
-      dispatch(fetchAction({ page, per_page: perPage, ...additionalParams }));
-    }
-  };
+  useEffect(() => {
+    if (!hasMore || isLoading || isFetching.current) return;
 
-  useDebounce(loadData, 300, [page, hasMore]);
+    isFetching.current = true;
+    dispatch(
+      fetchAction({ page, per_page: perPage, ...additionalParams })
+    ).finally(() => {
+      isFetching.current = false;
+    });
+  }, [page]);
 
   useInfiniteScroll(
     () => {
-      if (hasMore && !isLoading) {
-        setPage((prevPage) => prevPage + 1);
-      }
+      if (!hasMore || isLoading || isFetching.current) return;
+      setPage((prevPage) => prevPage + 1);
     },
-    [hasMore, isLoading, page],
+    [hasMore, isLoading],
     scrollContainer
   );
 
   useEffect(() => {
     return () => {
       dispatch(resetAction());
+      loadedIds.current.clear();
     };
   }, [dispatch, resetAction]);
 
@@ -56,11 +60,14 @@ const usePaginatedData = <T>({
     if (dependencies.length > 0) {
       setPage(1);
       dispatch(resetAction());
-      dispatch(
-        fetchAction({ page: 1, per_page: perPage, ...additionalParams })
-      );
+      loadedIds.current.clear();
+      setTimeout(() => {
+        dispatch(
+          fetchAction({ page: 1, per_page: perPage, ...additionalParams })
+        );
+      }, 200);
     }
-  }, [...dependencies]);
+  }, dependencies);
 
   return { data, isLoading, hasMore, error };
 };
