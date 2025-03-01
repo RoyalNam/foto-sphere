@@ -22,7 +22,7 @@ const AvatarWithName: React.FC<AvatarWithNameProps> = ({
   return (
     <div className="inline-flex flex-1">
       <Link
-        to={`/@${username}`}
+        to={`/user/${username}`}
         className={`flex items-center gap-1.5 ${className}`}
       >
         <img src={src} alt={alt} className={`rounded-full ${size}`} />

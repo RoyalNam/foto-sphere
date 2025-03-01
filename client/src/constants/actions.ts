@@ -21,3 +21,10 @@ export const SEARCH_ACTIONS = {
   SEARCH_COLLECTIONS: "search/SEARCH_COLLECTIONS",
   SEARCH_USERS: "search/SEARCH_USERS",
 };
+
+export const USER_ACTIONS = {
+  FETCH_USER_INFO: "user/fetchUserInfo",
+  FETCH_USER_PHOTOS: "user/fetchUserPhotos",
+  FETCH_USER_COLLECTIONS: "user/fetchUserCollections",
+  FETCH_USER_LIKES: "user/fetchUserLikes",
+};

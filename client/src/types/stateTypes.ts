@@ -41,9 +41,17 @@ export interface SearchState {
   users: AsyncState<User[]>;
 }
 
+export interface UserState {
+  userInfo: AsyncState<User | null>;
+  userPhotos: AsyncState<Photo[]>;
+  userCollections: AsyncState<Collection[]>;
+  userLikes: AsyncState<Photo[]>;
+}
+
 export interface RootState {
   photo: PhotoState;
   collection: CollectionState;
   topic: TopicState;
   search: SearchState;
+  user: UserState;
 }

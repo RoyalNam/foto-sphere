@@ -10,6 +10,7 @@ import { ScrollLockProvider } from "./context/ScrollLockContext";
 import { ModalProvider } from "./context/ModalContext";
 import GlobalModal from "./pages/GlobalModal";
 import SearchResultsPage from "./pages/SearchResultsPage";
+import UserDetailPage from "./pages/User/UserDetailPage";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
             <Route path="/topics" element={<TopicsPage />} />
             <Route path="/topics/:slug" element={<TopicDetailPage />} />
             <Route path="/search" element={<SearchResultsPage />} />
+            <Route path="/user/:username" element={<UserDetailPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>

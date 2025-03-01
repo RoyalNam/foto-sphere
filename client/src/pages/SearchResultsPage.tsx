@@ -19,33 +19,9 @@ import { useSearchBar } from "@/hooks/useSearch";
 import usePaginatedData from "@/hooks/usePaginatedData";
 import { Collection, Photo, User } from "@/types";
 import PaginatedPhotoGallery from "@/components/Photo/PaginatedPhotoGallery";
-import { formatNumber } from "@/utils";
 import CollectionGallery from "@/components/Collection/CollectionGallery";
 import UserGallery from "@/components/User/UserGallery";
-
-interface TabButtonProps {
-  isActive: boolean;
-  onClick: () => void;
-  label: string;
-  count: number;
-}
-
-const TabButton: React.FC<TabButtonProps> = ({
-  isActive,
-  onClick,
-  label,
-  count,
-}) => (
-  <button
-    className={`relative px-4 py-2 flex items-center space-x-1 ${
-      isActive ? "border-b-2 border-blue-500" : ""
-    }`}
-    onClick={onClick}
-  >
-    <span>{label}</span>
-    <span className="">{formatNumber(count)}</span>
-  </button>
-);
+import TabButton from "@/components/ui/TabButton";
 
 const SearchResultsPage = () => {
   const [searchParams] = useSearchParams();

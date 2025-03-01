@@ -4,6 +4,7 @@ import {
   collectionReducer,
   topicReducer,
   searchReducer,
+  userReducer,
 } from "./slices";
 
 const store = configureStore({
@@ -12,6 +13,7 @@ const store = configureStore({
     collection: collectionReducer,
     topic: topicReducer,
     search: searchReducer,
+    user: userReducer,
   },
 });
 

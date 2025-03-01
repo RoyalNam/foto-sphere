@@ -32,6 +32,10 @@ export interface User {
   social: Social;
   profile_image: ProfileImage;
   photos: Photo[];
+  tags: {
+    custom: Tag[];
+    aggregated: Tag[];
+  };
 }
 
 export interface PhotoUrls {

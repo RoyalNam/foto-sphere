@@ -5,7 +5,7 @@ import AvatarWithName from "../ui/AvatarWithName";
 const UserCard = ({ user }: { user: User }) => {
   return (
     <Link
-      to={`/@${user.username}`}
+      to={`/user/${user.username}`}
       className="p-4 border rounded-md border-btn-disabled hover:border-btn"
     >
       <div className="flex flex-col gap-4">
