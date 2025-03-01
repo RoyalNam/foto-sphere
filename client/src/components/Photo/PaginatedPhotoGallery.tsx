@@ -7,12 +7,14 @@ interface PaginatedPhotoGalleryProps {
   photos: Photo[];
   loading: boolean;
   error?: any;
+  hasMore?: boolean;
 }
 
 const PaginatedPhotoGallery: React.FC<PaginatedPhotoGalleryProps> = ({
-  photos,
+  photos = [],
   loading,
   error,
+  hasMore,
 }) => {
   if (error) {
     return (
@@ -32,6 +34,11 @@ const PaginatedPhotoGallery: React.FC<PaginatedPhotoGalleryProps> = ({
         )
       )}
       {loading && <LoadingSpinner />}
+      {!hasMore && photos.length > 0 && (
+        <div className="mt-4 text-center text-gray-500">
+          No more photos to load.
+        </div>
+      )}
     </>
   );
 };
