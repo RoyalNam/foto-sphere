@@ -15,13 +15,14 @@ const Header: React.FC = () => {
   const toggleMenu = useCallback(() => {
     setIsMenuOpen((prev) => !prev);
   }, []);
+  const closeMenuOpen = () => setIsMenuOpen(false);
 
   return (
-    <header className="fixed inset-x-0 top-0 bg-background shadow-md z-50">
+    <header className="fixed inset-x-0 top-0 z-50 shadow-md bg-background">
       <div className="container flex items-center justify-between gap-2 p-2 h-14">
         {!isSearchOpen && (
           <Link to={"/"} className="ml-2 mr-4">
-            <img src="/logo.png" alt="Company Logo" className="h-10 w-10" />
+            <img src="/logo.png" alt="Company Logo" className="w-10 h-10" />
           </Link>
         )}
 
@@ -30,12 +31,16 @@ const Header: React.FC = () => {
           closeSearchOnBlur={closeSearch}
         />
 
-        <NavbarMenu isSearchOpen={isSearchOpen} isMenuOpen={isMenuOpen} />
+        <NavbarMenu
+          isSearchOpen={isSearchOpen}
+          isMenuOpen={isMenuOpen}
+          closeMenuOpen={closeMenuOpen}
+        />
 
         {!isSearchOpen && (
           <div className="flex items-center gap-0.5">
             <button
-              className="md:hidden px-4 py-2 rounded-full border-none hover:bg-btn-hover"
+              className="px-4 py-2 border-none rounded-full md:hidden hover:bg-btn-hover"
               title="Search"
             >
               <MagnifyingGlassIcon className="size-6" onClick={openSearch} />
@@ -45,7 +50,7 @@ const Header: React.FC = () => {
 
             <div>
               <button
-                className="mr-4 px-2 py-1 bg-btn font-bold rounded-full hover:bg-btn-disabled transition-all duration-200"
+                className="px-2 py-1 mr-4 font-bold transition-all duration-200 rounded-full bg-btn hover:bg-btn-disabled"
                 aria-label="Log in"
               >
                 Log in
@@ -53,7 +58,7 @@ const Header: React.FC = () => {
             </div>
 
             <button
-              className="md:hidden hover:bg-btn-hover px-4 py-2 rounded-full border-none -ml-4"
+              className="px-4 py-2 -ml-4 border-none rounded-full md:hidden hover:bg-btn-hover"
               onClick={toggleMenu}
               title="Menu"
             >

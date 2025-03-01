@@ -1,6 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import {
   selectSearchPhotos,
   selectSearchCollections,
@@ -18,14 +17,13 @@ import {
 } from "@/store/actions";
 import { useSearchBar } from "@/hooks/useSearch";
 import usePaginatedData from "@/hooks/usePaginatedData";
-import { Collection, Photo } from "@/types";
+import { Collection, Photo, User } from "@/types";
 import PaginatedPhotoGallery from "@/components/Photo/PaginatedPhotoGallery";
 import CollectionCard from "@/components/Collection/CollectionCard";
 import SkeletonCollectionCard from "@/components/Loading/SkeletonCollectionCard";
 import { formatNumber } from "@/utils";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/store/store";
 import AvatarWithName from "@/components/ui/AvatarWithName";
+import { Link } from "react-router-dom";
 
 interface TabButtonProps {
   isActive: boolean;
@@ -52,15 +50,12 @@ const TabButton: React.FC<TabButtonProps> = ({
 );
 
 const SearchResultsPage = () => {
-  const dispatch = useDispatch<AppDispatch>();
-
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q");
   const [activeTab, setActiveTab] = useState<
     "photos" | "collections" | "users"
   >("photos");
 
-  const users = useSelector(selectSearchUsers);
   const { handleSearch, searchResults } = useSearchBar();
 
   useEffect(() => {
@@ -69,15 +64,6 @@ const SearchResultsPage = () => {
       handleSearch(query);
     }
   }, [query, handleSearch]);
-
-  useEffect(() => {
-    if (activeTab === "users" && query) {
-      dispatch(fetchSearchUsers({ query }));
-    }
-    return () => {
-      dispatch(resetSearchUsers());
-    };
-  }, [dispatch, activeTab]);
 
   const {
     data: photos,
@@ -102,6 +88,19 @@ const SearchResultsPage = () => {
     resetAction: resetSearchCollections,
     additionalParams: { query },
     perPage: 10,
+    dependencies: [query],
+  });
+
+  const {
+    data: users,
+    isLoading: usersLoading,
+    error: usersError,
+  } = usePaginatedData<User[]>({
+    fetchAction: fetchSearchUsers,
+    selector: selectSearchUsers,
+    resetAction: resetSearchUsers,
+    additionalParams: { query },
+    perPage: 20,
     dependencies: [query],
   });
 
@@ -134,50 +133,71 @@ const SearchResultsPage = () => {
           count={searchResults.users}
         />
       </div>
+      <div className="mt-4">
+        {activeTab === "photos" && (
+          <PaginatedPhotoGallery
+            photos={photos}
+            loading={photosLoading}
+            error={photosError}
+          />
+        )}
 
-      {activeTab === "photos" && (
-        <PaginatedPhotoGallery
-          photos={photos}
-          loading={photosLoading}
-          error={photosError}
-        />
-      )}
-
-      {activeTab === "collections" && (
-        <div className="grid grid-cols-2 gap-5 lg:grid-cols-3 xl:grid-cols-4">
-          {collections.map((collection) => (
-            <CollectionCard collection={collection} key={collection.id} />
-          ))}
-          {collectionsLoading &&
-            Array.from({ length: 8 }).map((_, index) => (
-              <SkeletonCollectionCard key={index} />
+        {activeTab === "collections" && (
+          <div className="grid grid-cols-2 gap-5 lg:grid-cols-3 xl:grid-cols-4">
+            {collections.map((collection) => (
+              <CollectionCard collection={collection} key={collection.id} />
             ))}
-          {collectionsError && <p>Error: {collectionsError}</p>}
-        </div>
-      )}
+            {collectionsLoading &&
+              Array.from({ length: 8 }).map((_, index) => (
+                <SkeletonCollectionCard key={index} />
+              ))}
+            {collectionsError && <p>Error: {collectionsError}</p>}
+          </div>
+        )}
 
-      {activeTab === "users" && (
-        <div>
-          {users.isLoading && <p>Loading...</p>}
-          {users.error && <p>Error: {users.error}</p>}
-          <div className="grid grid-cols-2 md:grid-cols-3">
-            {users.data.map((user) => (
-              <div key={user.id}>
-                <div>
-                  <div>
+        {activeTab === "users" && (
+          <div>
+            {usersLoading && <p>Loading...</p>}
+            {usersError && <p>Error: {usersError}</p>}
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {users.map((user) => (
+                <Link
+                  to={`/@${user.username}`}
+                  key={user.id}
+                  className="p-4 border rounded-md border-btn-disabled hover:border-btn"
+                >
+                  <div className="flex flex-col gap-4">
                     <AvatarWithName
                       src={user.profile_image.medium}
                       name={user.name}
                       username={user.username}
                       alt={user.username}
+                      size="size-14"
                     />
+                    {user.photos.length > 0 && (
+                      <div className="grid grid-cols-3 gap-2">
+                        {user.photos.map((item, index) => (
+                          <img
+                            key={index}
+                            src={item.urls.small}
+                            className="aspect-[3/2]"
+                          />
+                        ))}
+                      </div>
+                    )}
+                    <button
+                      className="border border-btn-disabled rounded-full py-0.5 px-4 
+                         transition-all duration-200 hover:border-btn"
+                    >
+                      View profile
+                    </button>
                   </div>
-                </div>
-              </div>
-            ))}
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

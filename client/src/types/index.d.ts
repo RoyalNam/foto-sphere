@@ -31,6 +31,7 @@ export interface User {
   downloads: number;
   social: Social;
   profile_image: ProfileImage;
+  photos: Photo[];
 }
 
 export interface PhotoUrls {

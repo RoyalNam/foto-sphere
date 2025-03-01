@@ -10,6 +10,7 @@ type MenuItem = {
 type NavbarMenuProps = {
   isSearchOpen: boolean;
   isMenuOpen: boolean;
+  closeMenuOpen: () => void;
 };
 
 const menuItems: MenuItem[] = [
@@ -21,6 +22,7 @@ const menuItems: MenuItem[] = [
 const NavbarMenu: React.FC<NavbarMenuProps> = ({
   isSearchOpen,
   isMenuOpen,
+  closeMenuOpen,
 }) => {
   const location = useLocation();
 
@@ -66,7 +68,7 @@ const NavbarMenu: React.FC<NavbarMenuProps> = ({
             (item.path !== "/" && location.pathname.startsWith(item.path));
 
           return (
-            <li key={item.id}>
+            <li key={item.id} onClick={closeMenuOpen}>
               <Link
                 to={item.path}
                 className={`px-4 py-2 block hover:bg-btn rounded ${

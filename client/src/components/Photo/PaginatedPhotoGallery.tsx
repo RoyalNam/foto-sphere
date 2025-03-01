@@ -26,8 +26,8 @@ const PaginatedPhotoGallery: React.FC<PaginatedPhotoGalleryProps> = ({
         <PhotoGallery photos={photos} />
       ) : (
         !loading && (
-          <p className="text-center text-foreground-muted italic mt-4">
-            The collection is private.
+          <p className="mt-4 italic text-center text-foreground-muted">
+            No photos found.
           </p>
         )
       )}
