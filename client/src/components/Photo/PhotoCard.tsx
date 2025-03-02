@@ -52,6 +52,7 @@ const PhotoCard: React.FC<PhotoCardProps> = ({
 
   return (
     <div
+      key={id}
       style={{
         ...containerStyle,
         width: `${photo.width}px`,
