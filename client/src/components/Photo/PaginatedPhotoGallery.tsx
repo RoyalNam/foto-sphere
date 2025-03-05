@@ -34,7 +34,7 @@ const PaginatedPhotoGallery: React.FC<PaginatedPhotoGalleryProps> = ({
         )
       )}
       {loading && <LoadingSpinner />}
-      {!hasMore && photos.length > 0 && (
+      {!hasMore && photos.length > 0 && !loading && (
         <div className="mt-4 text-center text-gray-500">
           No more photos to load.
         </div>

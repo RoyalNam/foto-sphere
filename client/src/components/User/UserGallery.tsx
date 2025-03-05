@@ -41,7 +41,7 @@ const UserGallery: React.FC<UserGalleryProps> = ({
 
       {loading && <LoadingSpinner />}
 
-      {!hasMore && users.length > 0 && (
+      {!hasMore && users.length > 0 && !loading && (
         <div className="mt-4 text-center text-gray-500">
           No more users to load.
         </div>

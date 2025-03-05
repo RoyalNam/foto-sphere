@@ -47,7 +47,7 @@ const CollectionGallery: React.FC<CollectionGalleryProps> = ({
         </div>
       )}
 
-      {!hasMore && collections.length > 0 && (
+      {!hasMore && collections.length > 0 && !loading && (
         <div className="mt-4 text-center text-gray-500">
           No more collections to load.
         </div>
